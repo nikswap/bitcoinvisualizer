@@ -7,6 +7,7 @@ FROM
     addresses ON addresses.id = addresses_outputs.addressid
 WHERE    
     addresses.addr = '<address to find>'
+;
 
 -- Find output no and transaction id for a given address
 SELECT
@@ -25,10 +26,12 @@ WHERE
         WHERE    
             addresses.addr = '<address to find>'
     )
+;
 
 -- find input transactions ids given a trans id and output no to search for
 SELECT
-    inputs.txid
+        inputs.txid
+    ,   inputs.outputno
 FROM
     transactions
     INNER JOIN 
@@ -37,8 +40,9 @@ FROM
         inputs ON trans_inputs.inputid = inputs.id
 WHERE
     transactions.txid = '<trans id at søge efter>'
-        AND
-    inputs.outputno = <output no to find>
+--        AND
+--     inputs.outputno = <output no to find>
+;
 
 -- Find address given transaction id
 SELECT
@@ -52,5 +56,14 @@ FROM
 WHERE
     outputs.txid = '<trans id to find>'
         AND
-    outputs.outputno = <output no to find>
+    outputs.outputno = <output no to find> -- This is the output id from the outputs table. NOT from the inputs
+;
 
+-- Delete all data from tables
+truncate inputs;
+truncate outputs;
+truncate addresses;
+truncate transactions;
+truncate addresses_outputs;
+truncate trans_inputs;
+truncate trans_outputs;
